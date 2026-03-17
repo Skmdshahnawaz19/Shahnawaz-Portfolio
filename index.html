@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shaikh Shahnawaz — IT Professional</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080C14;
+    --bg2: #0D1520;
+    --bg3: #111d2e;
+    --blue: #3B82F6;
+    --cyan: #06B6D4;
+    --glow: rgba(59,130,246,0.15);
+    --text: #E8EDF5;
+    --muted: #6B7FA3;
+    --border: rgba(59,130,246,0.18);
+    --mono: 'Space Mono', monospace;
+    --display: 'Syne', sans-serif;
+  }
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--display);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none;
+    z-index:0;
+    opacity:0.4;
+  }
+
+  /* ── GRID BACKGROUND ── */
+  body::after {
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events:none;
+    z-index:0;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 30%, transparent 100%);
+  }
+
+  section, nav, footer { position:relative; z-index:1; }
+
+  /* ── NAV ── */
+  nav {
+    position:fixed; top:0; left:0; right:0;
+    padding: 20px 48px;
+    display:flex; justify-content:space-between; align-items:center;
+    background: rgba(8,12,20,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index:100;
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size:13px;
+    color: var(--cyan);
+    letter-spacing:2px;
+  }
+  .nav-links { display:flex; gap:32px; }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size:11px;
+    color: var(--muted);
+    text-decoration:none;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding: 120px 48px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size:11px;
+    color: var(--cyan);
+    letter-spacing:4px;
+    text-transform:uppercase;
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    opacity:0;
+    animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+  .hero-tag::before {
+    content:'';
+    display:block;
+    width:32px; height:1px;
+    background: var(--cyan);
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+    opacity:0;
+    animation: fadeUp 0.7s ease forwards 0.35s;
+  }
+  h1 .dim { color: var(--muted); }
+  h1 .accent {
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size:17px;
+    color: var(--muted);
+    max-width: 560px;
+    line-height:1.8;
+    margin-bottom:48px;
+    opacity:0;
+    animation: fadeUp 0.7s ease forwards 0.5s;
+  }
+
+  .hero-cta {
+    display:flex; gap:16px; flex-wrap:wrap;
+    opacity:0;
+    animation: fadeUp 0.7s ease forwards 0.65s;
+  }
+  .btn-primary {
+    padding: 14px 32px;
+    background: var(--blue);
+    color: #fff;
+    font-family: var(--mono);
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    text-decoration:none;
+    border-radius:4px;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 24px rgba(59,130,246,0.3);
+  }
+  .btn-primary:hover {
+    background: #2563EB;
+    transform: translateY(-2px);
+    box-shadow: 0 0 36px rgba(59,130,246,0.5);
+  }
+  .btn-secondary {
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    text-decoration:none;
+    border-radius:4px;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--blue);
+    transform: translateY(-2px);
+  }
+
+  /* status pill */
+  .status-pill {
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 16px;
+    background: rgba(6,182,212,0.08);
+    border: 1px solid rgba(6,182,212,0.2);
+    border-radius:100px;
+    font-family:var(--mono);
+    font-size:11px;
+    color: var(--cyan);
+    margin-bottom:32px;
+    opacity:0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+  .status-dot {
+    width:6px; height:6px;
+    border-radius:50%;
+    background: var(--cyan);
+    animation: pulse 2s ease infinite;
+  }
+
+  /* ── SECTION COMMON ── */
+  .section-wrap {
+    max-width:1100px;
+    margin:0 auto;
+    padding: 100px 48px;
+  }
+  .section-label {
+    font-family: var(--mono);
+    font-size:11px;
+    color: var(--cyan);
+    letter-spacing:4px;
+    text-transform:uppercase;
+    margin-bottom:16px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .section-label::before {
+    content:'';
+    display:block;
+    width:24px; height:1px;
+    background: var(--cyan);
+  }
+  .section-title {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight:800;
+    letter-spacing:-1px;
+    margin-bottom:60px;
+    line-height:1.1;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+
+  .skills-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap:20px;
+  }
+  .skill-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius:12px;
+    padding:28px;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    cursor:default;
+  }
+  .skill-card:hover {
+    border-color: var(--blue);
+    transform:translateY(-4px);
+    box-shadow: 0 16px 48px rgba(59,130,246,0.1);
+  }
+  .skill-icon {
+    font-size:28px;
+    margin-bottom:16px;
+    display:block;
+  }
+  .skill-card h4 {
+    font-size:16px;
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  .skill-tags {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:14px;
+  }
+  .skill-tag {
+    font-family:var(--mono);
+    font-size:10px;
+    padding:4px 10px;
+    border-radius:4px;
+    background: rgba(59,130,246,0.1);
+    color: var(--blue);
+    border:1px solid rgba(59,130,246,0.2);
+    letter-spacing:1px;
+  }
+  .skill-tag.learning {
+    background: rgba(6,182,212,0.08);
+    color: var(--cyan);
+    border-color: rgba(6,182,212,0.2);
+  }
+
+  /* ── EXPERIENCE ── */
+  .exp-list { display:flex; flex-direction:column; gap:0; }
+  .exp-item {
+    display:grid;
+    grid-template-columns: 200px 1fr;
+    gap:40px;
+    padding:40px 0;
+    border-bottom:1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .exp-item:first-child { border-top:1px solid var(--border); }
+  .exp-meta {
+    padding-top:4px;
+  }
+  .exp-period {
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:1px;
+    margin-bottom:8px;
+  }
+  .exp-company {
+    font-size:13px;
+    color: var(--cyan);
+    font-weight:600;
+  }
+  .exp-content h3 {
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:12px;
+    letter-spacing:-0.5px;
+  }
+  .exp-content p {
+    color:var(--muted);
+    line-height:1.8;
+    font-size:15px;
+    margin-bottom:16px;
+  }
+  .exp-pills { display:flex; flex-wrap:wrap; gap:8px; }
+  .exp-pill {
+    font-family:var(--mono);
+    font-size:10px;
+    padding:4px 12px;
+    border-radius:100px;
+    background:rgba(255,255,255,0.04);
+    color:var(--muted);
+    border:1px solid var(--border);
+    letter-spacing:1px;
+  }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--bg2); border-top:1px solid var(--border); }
+  .contact-inner {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:start;
+  }
+  .contact-info h2 {
+    font-size:clamp(32px,5vw,52px);
+    font-weight:800;
+    letter-spacing:-1px;
+    line-height:1.1;
+    margin-bottom:24px;
+  }
+  .contact-info p {
+    color:var(--muted);
+    line-height:1.8;
+    font-size:15px;
+    margin-bottom:40px;
+  }
+  .contact-links { display:flex; flex-direction:column; gap:16px; }
+  .contact-link {
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--text);
+    text-decoration:none;
+    padding:16px 20px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    letter-spacing:1px;
+  }
+  .contact-link:hover {
+    border-color:var(--blue);
+    background:var(--glow);
+    transform:translateX(4px);
+  }
+  .contact-link span { color:var(--muted); font-size:18px; }
+
+  /* terminal block */
+  .terminal {
+    background:#060a10;
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+  }
+  .terminal-bar {
+    padding:14px 20px;
+    background:rgba(255,255,255,0.03);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .dot { width:10px; height:10px; border-radius:50%; }
+  .dot.r { background:#FF5F56; }
+  .dot.y { background:#FFBD2E; }
+  .dot.g { background:#27C93F; }
+  .terminal-body {
+    padding:28px;
+    font-family:var(--mono);
+    font-size:13px;
+    line-height:2;
+  }
+  .t-line { display:flex; gap:10px; }
+  .t-prompt { color:var(--cyan); }
+  .t-cmd { color:var(--text); }
+  .t-out { color:var(--muted); padding-left:20px; display:block; }
+  .t-out.hi { color:#4ADE80; }
+  .t-cursor {
+    display:inline-block;
+    width:8px; height:14px;
+    background:var(--cyan);
+    animation:blink 1s step-end infinite;
+    vertical-align:middle;
+    margin-left:2px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding:32px 48px;
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  footer p {
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:1px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(6,182,212,0.4); }
+    50% { opacity:0.7; box-shadow:0 0 0 5px rgba(6,182,212,0); }
+  }
+  @keyframes blink {
+    0%,100% { opacity:1; }
+    50% { opacity:0; }
+  }
+
+  /* scroll reveal */
+  .reveal {
+    opacity:0;
+    transform:translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  @media (max-width:768px) {
+    nav { padding:16px 24px; }
+    .nav-links { display:none; }
+    #hero, .section-wrap { padding-left:24px; padding-right:24px; }
+    .exp-item { grid-template-columns:1fr; gap:12px; }
+    .contact-inner { grid-template-columns:1fr; gap:40px; }
+    footer { flex-direction:column; gap:12px; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SS.DEV</div>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="status-pill">
+    <div class="status-dot"></div>
+    Open to Sysadmin & IT Support roles
+  </div>
+  <div class="hero-tag">IT Professional · Mumbai</div>
+  <h1>
+    Shaikh<br>
+    <span class="accent">Shahnawaz</span><span class="dim">.</span>
+  </h1>
+  <p class="hero-desc">
+    IT Associate with hands-on experience in desktop support, server administration, and network troubleshooting. Currently levelling up in Linux, Active Directory &amp; Python to transition into System Administration.
+  </p>
+  <div class="hero-cta">
+    <a href="#contact" class="btn-primary">Get In Touch</a>
+    <a href="#experience" class="btn-secondary">View Experience</a>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-label reveal">Capabilities</div>
+    <h2 class="section-title reveal">What I Work With</h2>
+    <div class="skills-grid">
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">🖥️</span>
+        <h4>Desktop & Server Support</h4>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7">Remote and onsite troubleshooting for hardware, software, and Windows OS across enterprise environments.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">WINDOWS 10/11</span>
+          <span class="skill-tag">WINDOWS SERVER</span>
+          <span class="skill-tag">BIOS/DRIVERS</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">🌐</span>
+        <h4>Networking</h4>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7">LAN/Wi-Fi troubleshooting, IP configuration, Ethernet cable crimping, and network connectivity resolution.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">LAN / WI-FI</span>
+          <span class="skill-tag">TCP/IP</span>
+          <span class="skill-tag">ETHERNET</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">🎬</span>
+        <h4>AV & Specialised Systems</h4>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7">Managing VISTA server, IMS server, Dolby Atmos, digital projectors, CCTV, POS and kiosk systems.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">VISTA SERVER</span>
+          <span class="skill-tag">DOLBY ATMOS</span>
+          <span class="skill-tag">POS SYSTEMS</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">🎫</span>
+        <h4>Incident Management</h4>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7">Ticketing tools, SLA compliance, escalation coordination, and preventive maintenance scheduling.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">TICKETING</span>
+          <span class="skill-tag">SLA</span>
+          <span class="skill-tag">ESCALATION</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">⚡</span>
+        <h4>Currently Learning</h4>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7">Actively upskilling to transition into a System Administrator role with cloud capabilities.</p>
+        <div class="skill-tags">
+          <span class="skill-tag learning">ACTIVE DIRECTORY</span>
+          <span class="skill-tag learning">LINUX CLI</span>
+          <span class="skill-tag learning">PYTHON</span>
+          <span class="skill-tag learning">AWS</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">🎓</span>
+        <h4>Education</h4>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7">BSc. Information Technology — University of Mumbai, 2020–2024. CGPA: 8.0</p>
+        <div class="skill-tags">
+          <span class="skill-tag">BSC IT</span>
+          <span class="skill-tag">8.0 CGPA</span>
+          <span class="skill-tag">MUMBAI UNIV.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-wrap">
+    <div class="section-label reveal">Career</div>
+    <h2 class="section-title reveal">Work Experience</h2>
+    <div class="exp-list">
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-period">DEC 2024 — PRESENT</div>
+          <div class="exp-company">Cinepolis India</div>
+        </div>
+        <div class="exp-content">
+          <h3>IT Associate</h3>
+          <p>Responsible for full IT operations across cinema systems — from projection and audio equipment to POS and network infrastructure. Ensured zero-downtime across all screens during live screenings.</p>
+          <div class="exp-pills">
+            <span class="exp-pill">POS SUPPORT</span>
+            <span class="exp-pill">VISTA SERVER</span>
+            <span class="exp-pill">DOLBY ATMOS</span>
+            <span class="exp-pill">CCTV</span>
+            <span class="exp-pill">LAN TROUBLESHOOTING</span>
+            <span class="exp-pill">OS INSTALLATION</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-period">MAR 2024 — JUL 2024</div>
+          <div class="exp-company">Appizon</div>
+        </div>
+        <div class="exp-content">
+          <h3>Desktop Support Engineer</h3>
+          <p>Delivered remote and onsite IT support to banking users. Managed incidents via ticketing system ensuring SLA compliance. Handled security updates, antivirus deployments, and banking application configuration.</p>
+          <div class="exp-pills">
+            <span class="exp-pill">BANKING IT</span>
+            <span class="exp-pill">REMOTE SUPPORT</span>
+            <span class="exp-pill">SLA COMPLIANCE</span>
+            <span class="exp-pill">WINDOWS OS</span>
+            <span class="exp-pill">ANTIVIRUS MGMT</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="contact-inner">
+      <div class="contact-info reveal">
+        <div class="section-label">Contact</div>
+        <h2>Let's Work<br>Together<span style="color:var(--blue)">.</span></h2>
+        <p>Looking for a dedicated IT professional for your team? I'm actively seeking System Administrator and IT Support roles in Mumbai. Let's connect.</p>
+        <div class="contact-links">
+          <a href="tel:+919920258862" class="contact-link">
+            <span>📞</span> +91 9920258862
+          </a>
+          <a href="mailto:skdmdshahnawaz19@gmail.com" class="contact-link">
+            <span>✉️</span> skdmdshahnawaz19@gmail.com
+          </a>
+          <a href="#" class="contact-link">
+            <span>📍</span> Mumbai, Maharashtra
+          </a>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <div class="dot r"></div>
+            <div class="dot y"></div>
+            <div class="dot g"></div>
+            <span style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:8px">shahnawaz@portfolio ~ </span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-line">
+              <span class="t-prompt">❯</span>
+              <span class="t-cmd">whoami</span>
+            </div>
+            <span class="t-out hi">Shaikh Shahnawaz — IT Associate</span>
+
+            <div class="t-line" style="margin-top:12px">
+              <span class="t-prompt">❯</span>
+              <span class="t-cmd">cat skills.txt</span>
+            </div>
+            <span class="t-out">Desktop Support, Networking,</span>
+            <span class="t-out">Windows Server, Incident Mgmt</span>
+
+            <div class="t-line" style="margin-top:12px">
+              <span class="t-prompt">❯</span>
+              <span class="t-cmd">cat learning.txt</span>
+            </div>
+            <span class="t-out hi">Active Directory, Linux, Python, AWS</span>
+
+            <div class="t-line" style="margin-top:12px">
+              <span class="t-prompt">❯</span>
+              <span class="t-cmd">cat status.txt</span>
+            </div>
+            <span class="t-out hi">✓ Open to Sysadmin roles in Mumbai</span>
+
+            <div class="t-line" style="margin-top:12px">
+              <span class="t-prompt">❯</span>
+              <span class="t-cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Shaikh Shahnawaz</p>
+  <p>Built with purpose — Mumbai, India</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Smooth nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--text)' : '';
+    });
+  });
+</script>
+</body>
+</html>
